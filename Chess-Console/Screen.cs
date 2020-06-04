@@ -7,7 +7,7 @@ namespace Chess_Console
 {
     class Screen
     {
-        public static void printBoard(Board board)
+        public static void PrintBoard(Board board)
         {
             for(int i = 0; i < board.Lines; i++)
             {

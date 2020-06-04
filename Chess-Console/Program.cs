@@ -1,6 +1,7 @@
 ﻿using board;
 using chess;
 using System;
+using System.Net.NetworkInformation;
 
 namespace Chess_Console
 {
@@ -8,17 +9,29 @@ namespace Chess_Console
     {
         static void Main(string[] args)
         {
-            Board board = new Board(8, 8);
+            try
+            {
+                ChessMatch match = new ChessMatch();
 
-            board.SetPiece(new Tower(board, Color.Black), new Position(0, 0));
-            board.SetPiece(new Tower(board, Color.Black), new Position(1, 3));
-            board.SetPiece(new King(board, Color.Black), new Position(0, 2));
+                while (!match.GameOver)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board);
 
-            board.SetPiece(new Tower(board, Color.White), new Position(3, 5));
-            board.SetPiece(new Tower(board, Color.White), new Position(3, 3));
-            board.SetPiece(new King(board, Color.White), new Position(7, 2));
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+                    Console.Write("Destination :");
+                    Position destination = Screen.ReadChessPosition().ToPosition();
 
-            Screen.PrintBoard(board);
+                    match.PerformMovement(origin, destination);
+                }
+            }catch(BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
         }
     }
 }

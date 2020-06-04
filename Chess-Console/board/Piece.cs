@@ -15,5 +15,10 @@
             MovesAmount = 0;
         }
 
+        public void MovesAmountIncrease()
+        {
+            MovesAmount++;
+        }
+
     }
 }

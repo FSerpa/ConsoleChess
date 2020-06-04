@@ -1,4 +1,6 @@
-﻿namespace board
+﻿using System.Text.RegularExpressions;
+
+namespace board
 {
     abstract class Piece
     {
@@ -18,6 +20,28 @@
         public void MovesAmountIncrease()
         {
             MovesAmount++;
+        }
+
+        public bool BoolPossibleMovements()
+        {
+            bool[,] vs = PossibleMovements();
+            for (int i=0; i<Board.Lines; i++)
+            {
+                for(int j=0; j<Board.Columns; j++)
+                {
+                    if (vs[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+            
+        }
+
+        public bool CanMoveTo(Position position)
+        {
+            return PossibleMovements()[position.Line, position.Column];
         }
 
         public abstract bool[,] PossibleMovements();

@@ -2,9 +2,9 @@
 
 namespace chess
 {
-    class Tower : Piece
+    class Bishop:Piece
     {
-        public Tower(Board board, Color color) : base(board, color)
+        public Bishop(Board board, Color color) : base(board, color)
         {
         }
         private bool CanMove(Position position)
@@ -18,19 +18,20 @@ namespace chess
 
             Position position = new Position(0, 0);
 
-            //n
-            position.DefinePosition(Position.Line - 1, Position.Column);
+            //ne
+            position.DefinePosition(Position.Line - 1, Position.Column+1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
                 vs[position.Line, position.Column] = true;
-                if(Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                 {
                     break;
                 }
                 position.Line = position.Line - 1;
+                position.Column = position.Column + 1;
             }
-            //s
-            position.DefinePosition(Position.Line + 1, Position.Column);
+            //se
+            position.DefinePosition(Position.Line + 1, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
                 vs[position.Line, position.Column] = true;
@@ -39,20 +40,10 @@ namespace chess
                     break;
                 }
                 position.Line = position.Line + 1;
-            }
-            //e
-            position.DefinePosition(Position.Line, Position.Column+1);
-            while (Board.ValidPosition(position) && CanMove(position))
-            {
-                vs[position.Line, position.Column] = true;
-                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
-                {
-                    break;
-                }
                 position.Column = position.Column + 1;
             }
-            //w
-            position.DefinePosition(Position.Line, Position.Column - 1);
+            //sw
+            position.DefinePosition(Position.Line + 1, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
                 vs[position.Line, position.Column] = true;
@@ -60,6 +51,19 @@ namespace chess
                 {
                     break;
                 }
+                position.Line = position.Line + 1;
+                position.Column = position.Column - 1;
+            }
+            //nw
+            position.DefinePosition(Position.Line - 1, Position.Column - 1);
+            while (Board.ValidPosition(position) && CanMove(position))
+            {
+                vs[position.Line, position.Column] = true;
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                {
+                    break;
+                }
+                position.Line = position.Line - 1;
                 position.Column = position.Column - 1;
             }
 
@@ -67,7 +71,8 @@ namespace chess
         }
         public override string ToString()
         {
-            return "T";
+            return "B";
         }
     }
 }
+

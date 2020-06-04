@@ -27,7 +27,7 @@
             return Piece(position) != null;
         }
 
-        public void SetPiece(Piece piece, Position position)
+        public void PlacePiece(Piece piece, Position position)
         {
             if (ThereIsPiece(position))
             {

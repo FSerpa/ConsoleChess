@@ -1,7 +1,7 @@
 ﻿using board;
 using chess;
 using System;
-using System.Net.NetworkInformation;
+
 
 namespace Chess_Console
 {
@@ -16,11 +16,7 @@ namespace Chess_Console
                 try
                 {
                     Console.Clear();
-                    Screen.PrintBoard(match.Board);
-
-                    Console.WriteLine();
-                    Console.WriteLine("Turn #" + match.Turn);
-                    Console.WriteLine("Now Playing: " + match.NowPlaying + "s");
+                    Screen.PrintMatch(match);
                     Console.Write("Origin: ");
                     Position origin = Screen.ReadChessPosition().ToPosition();
                     match.ValidateOriginPosition(origin);
@@ -28,11 +24,7 @@ namespace Chess_Console
                     bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
                     Console.Clear();
-                    Screen.PrintBoard(match.Board, possiblePositions);
-
-                    Console.WriteLine();
-                    Console.WriteLine("Turn #" + match.Turn);
-                    Console.WriteLine("Now Playing: " + match.NowPlaying + "s");
+                    Screen.PrintMatch(match, possiblePositions);
                     Console.Write("Destination :");
                     Position destination = Screen.ReadChessPosition().ToPosition();
                     match.ValidateDestinationPosition(origin, destination);

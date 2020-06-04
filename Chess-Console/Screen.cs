@@ -14,10 +14,19 @@ namespace Chess_Console
             PrintCaptured(match);
             Console.WriteLine();
             Console.WriteLine("Turn #" + match.Turn);
-            Console.WriteLine("Now Playing: " + match.NowPlaying + "s");
-            if (match.Check)
+            if (!match.GameOver)
             {
-                Console.WriteLine("CHECK");
+                Console.WriteLine("Now Playing: " + match.NowPlaying + "s");
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECK MATE");
+                Console.WriteLine(match.NowPlaying + "s wins");
+                Console.WriteLine("GAME OVER");
             }
         }
         public static void PrintMatch(ChessMatch match, bool[,] possiblePositions)

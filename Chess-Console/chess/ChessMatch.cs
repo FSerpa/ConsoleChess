@@ -11,7 +11,49 @@ namespace chess
         public bool GameOver { get; private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> captured;
+        public bool Check { get; private set; }
 
+        private Color Opponent(Color color)
+        {
+            if(color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach(Piece piece in piecesInGame(color))
+            {
+                if(piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        public bool InCheck(Color color)
+        {
+            Piece K = King(color);
+            if (K == null)
+            {
+                throw new BoardException("There is no King of this color in the board.");
+            }
+            foreach (Piece piece in piecesInGame(Opponent(color)))
+            {
+                bool[,] vs = piece.PossibleMovements();
+                if (vs[K.Position.Line, K.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ChessMatch()
         {
             Board = new Board(8, 8);
@@ -23,7 +65,7 @@ namespace chess
             PlacePieces();
         }
 
-        public void PerformMovement(Position origin, Position destination)
+        public Piece PerformMovement(Position origin, Position destination)
         {
             Piece piece = Board.RemovePiece(origin);
             
@@ -37,11 +79,37 @@ namespace chess
             {
                 captured.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+        
+        public void UndoMovement(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = Board.RemovePiece(destination);
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, destination);
+                captured.Remove(capturedPiece);
+            }
+            Board.PlacePiece(piece, origin);
+            piece.MovesAmountDecrease();
         }
 
         public void PlayNow(Position origin, Position destination)
         {
-            PerformMovement(origin, destination);
+            Piece capturedPiece = PerformMovement(origin, destination);
+            if (InCheck(NowPlaying))
+            {
+                UndoMovement(origin, destination, capturedPiece);
+                throw new BoardException("You can't put yourself in Check condition");
+            }
+            if (InCheck(Opponent(NowPlaying)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             if (NowPlaying == Color.Black)
             {
                 Turn++;

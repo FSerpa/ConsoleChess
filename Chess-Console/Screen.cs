@@ -15,7 +15,10 @@ namespace Chess_Console
             Console.WriteLine();
             Console.WriteLine("Turn #" + match.Turn);
             Console.WriteLine("Now Playing: " + match.NowPlaying + "s");
-
+            if (match.Check)
+            {
+                Console.WriteLine("CHECK");
+            }
         }
         public static void PrintMatch(ChessMatch match, bool[,] possiblePositions)
         {

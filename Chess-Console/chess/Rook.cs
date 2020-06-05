@@ -2,9 +2,9 @@
 
 namespace chess
 {
-    class Tower : Piece
+    class Rook : Piece
     {
-        public Tower(Board board, Color color) : base(board, color)
+        public Rook(Board board, Color color) : base(board, color)
         {
         }
         private bool CanMove(Position position)
@@ -67,7 +67,7 @@ namespace chess
         }
         public override string ToString()
         {
-            return "T";
+            return "R";
         }
     }
 }

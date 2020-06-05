@@ -1,5 +1,6 @@
 ﻿using board;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace chess
 {
@@ -109,6 +110,26 @@ namespace chess
             {
                 captured.Add(capturedPiece);
             }
+            //#Short Castling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rOrigin = new Position(origin.Line, origin.Column + 3);
+                Position rDestination = new Position(origin.Line, origin.Column + 1);
+                Piece R = Board.RemovePiece(rOrigin);
+                R.MovesAmountIncrease();
+                Board.PlacePiece(R, rDestination);
+            }
+
+            //#Long Castling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rOrigin = new Position(origin.Line, origin.Column - 4);
+                Position rDestination = new Position(origin.Line, origin.Column - 1);
+                Piece R = Board.RemovePiece(rOrigin);
+                R.MovesAmountIncrease();
+                Board.PlacePiece(R, rDestination);
+            }
+
             return capturedPiece;
         }
         
@@ -122,6 +143,26 @@ namespace chess
             }
             Board.PlacePiece(piece, origin);
             piece.MovesAmountDecrease();
+
+            //#Short Castling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rOrigin = new Position(origin.Line, origin.Column + 3);
+                Position rDestination = new Position(origin.Line, origin.Column + 1);
+                Piece R = Board.RemovePiece(rDestination);
+                R.MovesAmountIncrease();
+                Board.PlacePiece(R, rOrigin);
+            }
+
+            //#Long Castling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rOrigin = new Position(origin.Line, origin.Column - 4);
+                Position rDestination = new Position(origin.Line, origin.Column - 1);
+                Piece R = Board.RemovePiece(rDestination);
+                R.MovesAmountIncrease();
+                Board.PlacePiece(R, rOrigin);
+            }
         }
 
         public void PlayNow(Position origin, Position destination)
@@ -222,14 +263,14 @@ namespace chess
 
         private void PlacePieces() {
  
-            PlaceNewPiece('a', 1, new Tower(Board, Color.White));
+            PlaceNewPiece('a', 1, new Rook(Board, Color.White));
             PlaceNewPiece('b', 1, new Knight(Board, Color.White));
             PlaceNewPiece('c', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('d', 1, new Queen(Board, Color.White));
-            PlaceNewPiece('e', 1, new King(Board, Color.White));
+            PlaceNewPiece('e', 1, new King(Board, Color.White, this));
             PlaceNewPiece('f', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('g', 1, new Knight(Board, Color.White));
-            PlaceNewPiece('h', 1, new Tower(Board, Color.White));
+            PlaceNewPiece('h', 1, new Rook(Board, Color.White));
             PlaceNewPiece('a', 2, new Pawn(Board, Color.White));
             PlaceNewPiece('b', 2, new Pawn(Board, Color.White));
             PlaceNewPiece('c', 2, new Pawn(Board, Color.White));
@@ -239,14 +280,14 @@ namespace chess
             PlaceNewPiece('g', 2, new Pawn(Board, Color.White));
             PlaceNewPiece('h', 2, new Pawn(Board, Color.White));
 
-            PlaceNewPiece('a', 8, new Tower(Board, Color.Black));
+            PlaceNewPiece('a', 8, new Rook(Board, Color.Black));
             PlaceNewPiece('b', 8, new Knight(Board, Color.Black));
             PlaceNewPiece('c', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('d', 8, new Queen(Board, Color.Black));
-            PlaceNewPiece('e', 8, new King(Board, Color.Black));
+            PlaceNewPiece('e', 8, new King(Board, Color.Black, this));
             PlaceNewPiece('f', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('g', 8, new Knight(Board, Color.Black));
-            PlaceNewPiece('h', 8, new Tower(Board, Color.Black));
+            PlaceNewPiece('h', 8, new Rook(Board, Color.Black));
             PlaceNewPiece('a', 7, new Pawn(Board, Color.Black));
             PlaceNewPiece('b', 7, new Pawn(Board, Color.Black));
             PlaceNewPiece('c', 7, new Pawn(Board, Color.Black));

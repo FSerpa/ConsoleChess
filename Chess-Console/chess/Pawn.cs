@@ -5,8 +5,10 @@ namespace chess
 {
     class Pawn:Piece
     {
-        public Pawn(Board board, Color color):base(board, color)
+        private ChessMatch Match;
+        public Pawn(Board board, Color color,ChessMatch match):base(board, color)
         {
+            Match = match;
         }
         private bool EnemyChecking(Position position)
         {
@@ -45,6 +47,24 @@ namespace chess
                 {
                     vs[position.Line, position.Column] = true;
                 }
+
+                //enPassant
+                if(Position.Line == 3)
+                {
+                    Position west = new Position(Position.Line, Position.Column - 1);
+                    if(Board.ValidPosition(west)&&EnemyChecking(west)&&Board.Piece(west) == Match.EnPassantVul)
+                    {
+                        vs[west.Line-1, west.Column] = true;
+                    }
+                }
+                if (Position.Line == 3)
+                {
+                    Position east = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(east) && EnemyChecking(east) && Board.Piece(east) == Match.EnPassantVul)
+                    {
+                        vs[east.Line-1, east.Column] = true;
+                    }
+                }
             }
             else
             {
@@ -67,6 +87,23 @@ namespace chess
                 if (Board.ValidPosition(position) && EnemyChecking(position))
                 {
                     vs[position.Line, position.Column] = true;
+                }
+                //enPassant
+                if (Position.Line == 4)
+                {
+                    Position west = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(west) && EnemyChecking(west) && Board.Piece(west) == Match.EnPassantVul)
+                    {
+                        vs[west.Line+1, west.Column] = true;
+                    }
+                }
+                if (Position.Line == 4)
+                {
+                    Position east = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(east) && EnemyChecking(east) && Board.Piece(east) == Match.EnPassantVul)
+                    {
+                        vs[east.Line+1, east.Column] = true;
+                    }
                 }
             }
             return vs;

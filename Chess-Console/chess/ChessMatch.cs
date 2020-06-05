@@ -1,6 +1,5 @@
 ﻿using board;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace chess
 {
@@ -361,7 +360,7 @@ namespace chess
             PlaceNewPiece('e', 7, new Pawn(Board, Color.Black, this));
             PlaceNewPiece('f', 7, new Pawn(Board, Color.Black, this));
             PlaceNewPiece('g', 7, new Pawn(Board, Color.Black, this));
-            PlaceNewPiece('h', 7, new Pawn(Board, Color.White, this));
+            PlaceNewPiece('h', 7, new Pawn(Board, Color.Black, this));
         }
 
     }

@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace board
+﻿namespace board
 {
     abstract class Piece
     {

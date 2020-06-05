@@ -1,4 +1,5 @@
 ﻿using board;
+
 namespace chess
 {
     class ChessPosition

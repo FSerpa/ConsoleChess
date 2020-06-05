@@ -212,6 +212,21 @@ namespace chess
                 UndoMovement(origin, destination, capturedPiece);
                 throw new BoardException("You can't put yourself in Check condition");
             }
+            Piece p = Board.Piece(destination);
+
+            //promotion
+
+            if (p is Pawn)
+            {
+                if ((p.Color == Color.White && destination.Line == 0) || (p.Color == Color.Black && destination.Line == 7))
+                {
+                    p = Board.RemovePiece(destination);
+                    pieces.Remove(p);
+                    Piece queen = new Queen(Board, p.Color);
+                    Board.PlacePiece(queen, destination);
+                    pieces.Add(queen);
+                }
+            }
             if (InCheck(Opponent(NowPlaying)))
             {
                 Check = true;
@@ -220,6 +235,7 @@ namespace chess
             {
                 Check = false;
             }
+
             if (InCheckMate(Opponent(NowPlaying))){
                 GameOver = true;
             }
@@ -230,7 +246,7 @@ namespace chess
                 }
                 ChangePlayer();
             }
-            Piece p = Board.Piece(destination);
+            
 
             //enPassant
             if(p is Pawn && destination.Line == origin.Line -2 || destination.Line == origin.Line + 2)
@@ -345,7 +361,7 @@ namespace chess
             PlaceNewPiece('e', 7, new Pawn(Board, Color.Black, this));
             PlaceNewPiece('f', 7, new Pawn(Board, Color.Black, this));
             PlaceNewPiece('g', 7, new Pawn(Board, Color.Black, this));
-            PlaceNewPiece('h', 7, new Pawn(Board, Color.Black, this));
+            PlaceNewPiece('h', 7, new Pawn(Board, Color.White, this));
         }
 
     }
